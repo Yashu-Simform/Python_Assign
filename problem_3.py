@@ -15,7 +15,6 @@ def importer(func):
 
 class Accumulator:
 
-    @importer
     def __init__(self, lst):
         self.lst = lst
         self.result = defaultdict(list)
@@ -30,7 +29,6 @@ class Accumulator:
     def splitStr(self, s):
         return [i for i in s]
     
-    @importer
     def formSet(self):
         for s in self.lst:
             d = Counter(self.splitStr(s)).items()
