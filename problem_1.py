@@ -42,7 +42,7 @@ class CalcGCD:
 
     def processData(self, data):
         # Transform:    onetwo => 12
-        words = {'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'}
+        words = {'zero': '0', 'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'}
 
         ans = int(self.recursion(0, data, '', words))
         log.info(f'Processed Data: {ans}')
@@ -82,6 +82,6 @@ class CalcGCD:
         
         return (a,b)
         
-obj = CalcGCD('eighteight', 'oneone')
+obj = CalcGCD('onezerozerozero', 'onezerozerozero')
 result = obj.calculateGCD()
 print(f'Result: {result}')
