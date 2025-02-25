@@ -1,4 +1,5 @@
 from collections import defaultdict, Counter
+from resource_track import ResourceUsageTracker
 
 def importer(func):
     def wrapper(self,lst):
@@ -20,6 +21,7 @@ class Accumulator:
         self.result = defaultdict(list)
         pass
 
+    @ResourceUsageTracker()
     def approach1(self):
         for s in self.lst:
             ts = ''.join(sorted(s))
@@ -29,6 +31,7 @@ class Accumulator:
     def splitStr(self, s):
         return [i for i in s]
     
+    @ResourceUsageTracker()
     def formSet(self):
         for s in self.lst:
             d = Counter(self.splitStr(s)).items()
@@ -36,8 +39,8 @@ class Accumulator:
             self.result[tuple(l)].append(s)
 
     def getResult(self):
-        # self.formSet()
-        self.approach1()    #O(n * klogk)
+        self.formSet()
+        # self.approach1()    #O(n * klogk)
         return list(self.result.values())
     
 inp = ["eat","tea","tan","ate","nat","bat"]

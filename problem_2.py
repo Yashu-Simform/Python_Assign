@@ -1,8 +1,11 @@
 import logging as log
+from resource_track import ResourceUsageTracker
 
 log.basicConfig(level=log.INFO)
 
 logg = log.getLogger(__name__)
+
+memory_usage = [float('-inf')]
 
 #All combinations of valid parentheses
 
@@ -12,6 +15,8 @@ class AllCombinations:
 
     def combination_generator(self):
         '''
+            Numbr of combinations for n: 2^n - n,
+            
             n = 3
 
             0               (
@@ -21,19 +26,23 @@ class AllCombinations:
             2         (   )(   (   )(
         '''
         result = []
-        self.recursion(0, self.n, '', 0, result)
+        # self.recursion(0, self.n, '', 0, result)
+
+        result = self.loop_it(self.n)
 
         log.info(f'Result: {result}')
-        pass
+        return result
 
 
+    #Tree Traversal
+    @ResourceUsageTracker(memory_usage=memory_usage, when='both')
     def recursion(self, i, p_n, p_curr, opens, result):
         #Never going to be case still lets check
         if i > p_n:
             log.info('level iterator > total levels')
             return
         
-        if i == p_n:
+        if (i == p_n) or (p_n == -1):
             while opens > 0:
                 p_curr = p_curr + ')'
                 opens = opens - 1
@@ -42,8 +51,48 @@ class AllCombinations:
         if i == 0:
             self.recursion(i + 1, p_n, p_curr + '(', opens+1, result)
         else:
+            j = opens
+            st = p_curr
+            while j > 0:
+                st = st + ')'
+                self.recursion(i + 1, p_n, st + '(', j, result)
+                j = j - 1
             self.recursion(i + 1, p_n, p_curr + '(', opens + 1, result)
-            self.recursion(i + 1, p_n, p_curr + ')(', opens, result)
 
-obj = AllCombinations(5)
-obj.combination_generator()
+    @ResourceUsageTracker(memory_usage=memory_usage, when='both')
+    def loop_it(self, p_n):
+        memo = []
+        result = []
+        for i in range(0, p_n):
+            if i == 0:
+                memo.append(['(', 1])
+            else:
+                temp = memo[:]
+                for i, t in enumerate(temp):
+                    j = memo[i][1]
+                    st = memo[i][0]
+                    while j > 0:
+                        st = st + ')'
+                        memo.append([st + '(', j])
+                        j = j - 1
+
+                    memo[i][0] = memo[i][0] + '('
+                    memo[i][1] += 1
+
+            log.info(f'List at id {i+1}: {memo}')
+                    
+
+        for i, t in enumerate(memo):
+            while memo[i][1] > 0:
+                memo[i][0] = memo[i][0] + ')'
+                memo[i][1] = memo[i][1] - 1
+            result.append(memo[i][0])
+        return result
+
+
+if __name__ == '__main__':
+    obj = AllCombinations(3)
+    result = obj.combination_generator()
+
+    print(f'Result: {result}')
+    print(f'Total Combinations: : {len(result)}')
