@@ -13,16 +13,21 @@ tracemalloc.start()
 class CalcGCD:
 
     class InvalidInput(Exception):
-        def __init__(self, msg = 'Invalid Input!'):
+        def __init__(self, data, msg = 'Invalid Input!'):
             self.msg = msg
+            self.data = data
             super().__init__(self.msg)
 
         def __str__(self):
-            return super().__str__()
+            return f'Invalid Input: {self.data}'
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, approach = 'l'):
         self.memory_usage = float('-inf')
         self.tracMemory = {}
+        if approach == 'r' or approach == 'l':
+            self.approach = approach
+        else:
+            raise self.InvalidInput(f'approach {approach}')
         try:
             self.x = self.processData(x)
             self.y = self.processData(y)
@@ -70,8 +75,12 @@ class CalcGCD:
 
         ans = 0
         try:
-            # ans = int(self.recursion(0, data, '', words))
-            ans = int(self.withLoop(data, words))
+            if self.approach == 'r':
+                print('Processing Data with recursion.')
+                ans = int(self.recursion(0, data, '', words))
+            elif self.approach == 'l':
+                print('Processing Data with loop.')
+                ans = int(self.withLoop(data, words))
         except Exception as e:
             raise e
         log.info(f'Processed Data: {ans}')
@@ -85,7 +94,7 @@ class CalcGCD:
                 return (p_words[p_curr])
             else:
                 if len(p_curr) > 0:
-                    raise self.InvalidInput()
+                    raise self.InvalidInput(p_str)
                 return ''
     
         #Conditional Calls
@@ -108,7 +117,7 @@ class CalcGCD:
                 curr = ''
             i += 1
         if len(curr) > 0:
-            raise self.InvalidInput()
+            raise self.InvalidInput(p_data)
         return result
     
     def resultFormat(self, p_data):
@@ -140,7 +149,9 @@ print('basestr', base_str)
 inp1 = input('Enter 1st number in words: ')
 inp2 = input('Enter 2nd number in words: ')
 
-obj = CalcGCD(inp1, inp2)
+approach = input('Choose approach for process data\nRecursive: type "r"\nWhile Loop: type "l"\n: ')
+
+obj = CalcGCD(inp1, inp2, approach)
 
 start = time.time()
 
@@ -148,12 +159,11 @@ start = time.time()
 try:
     result = obj.calculateGCD()
 except Exception as e:
-    # print('Error occurs: ', e)
+    print('Error occurs: ', e)
     pass
 
 end = time.time()
 
 print(f'Result: {result}')
 print(f'Execution Time: {end-start}')
-print(f"Total memory usage: {memory_usage} KB")
-print(obj.tracMemory)
+print(f"Total memory usage: {memory_usage[0]} KB")
