@@ -24,6 +24,17 @@ class AllCombinations:
             1           (       )(
 
             2         (   )(   (   )(
+
+
+                            (
+                        (             )
+                      (     )       (   |
+                      )    ( )     ( )  NA         
+                      )   )  (     ) (
+                      )   )  )     ) )
+                      1   2  3     4 5
+
+                      Thus 5 valid combos at leaf nodes.
         '''
         result = []
         # self.recursion(0, self.n, '', 0, result)
@@ -91,7 +102,7 @@ class AllCombinations:
 
 
 if __name__ == '__main__':
-    obj = AllCombinations(3)
+    obj = AllCombinations(8)
     result = obj.combination_generator()
 
     print(f'Result: {result}')

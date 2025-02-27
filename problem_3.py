@@ -11,7 +11,6 @@ def importer(func):
 
 #Approach1: compare all string and group similar ones after sorting
 #Approach2: Make counter and compare counters if same append to list otherwise create a new list
-#Approach3: 
 
 
 class Accumulator:
