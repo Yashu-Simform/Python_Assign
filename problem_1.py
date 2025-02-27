@@ -12,6 +12,14 @@ tracemalloc.start()
 
 class CalcGCD:
 
+    class InvalidInput(Exception):
+        def __init__(self, msg = 'Invalid Input!'):
+            self.msg = msg
+            super().__init__(self.msg)
+
+        def __str__(self):
+            return super().__str__()
+
     def __init__(self, x, y):
         self.memory_usage = float('-inf')
         self.tracMemory = {}
@@ -51,6 +59,10 @@ class CalcGCD:
         a, b = CalcGCD.myMax(rmd, p_low)
 
         return self.calcGCD(a, b)
+    
+    # def validation(str):
+        
+    #     pass
 
     def processData(self, data):
         # Transform:    onetwo => 12
@@ -59,10 +71,9 @@ class CalcGCD:
         ans = 0
         try:
             # ans = int(self.recursion(0, data, '', words))
-            pass
+            ans = int(self.withLoop(data, words))
         except Exception as e:
             raise e
-        ans = int(self.withLoop(data, words))
         log.info(f'Processed Data: {ans}')
         return ans
 
@@ -73,6 +84,8 @@ class CalcGCD:
             if p_curr in list(p_words.keys()):
                 return (p_words[p_curr])
             else:
+                if len(p_curr) > 0:
+                    raise self.InvalidInput()
                 return ''
     
         #Conditional Calls
@@ -94,6 +107,8 @@ class CalcGCD:
                 result = result + p_words[curr]
                 curr = ''
             i += 1
+        if len(curr) > 0:
+            raise self.InvalidInput()
         return result
     
     def resultFormat(self, p_data):
@@ -122,7 +137,10 @@ for i in range(13):
 
 print('basestr', base_str)
 
-obj = CalcGCD(op1, 'onetwothreefourfivesixseveneightnine')
+inp1 = input('Enter 1st number in words: ')
+inp2 = input('Enter 2nd number in words: ')
+
+obj = CalcGCD(inp1, inp2)
 
 start = time.time()
 
