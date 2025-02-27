@@ -48,6 +48,15 @@ testCases = [
     [''],
     ['aa', 'aaa'],
 ]
+print(f"Default case: {inp}")
+want = input('Want to add custom input: type "y": ')
+if want == 'y':
+    lst_size = input('Number of anagrams you want to enter: ')
+    inp_lst = []
+    for i in lst_size:
+        inp1 = input(f'Enter {i+1}th anagrams: ')
+        inp_lst.append(inp1)
+    inp = inp_lst
 
 ac = Accumulator(inp)
 result = ac.getResult()

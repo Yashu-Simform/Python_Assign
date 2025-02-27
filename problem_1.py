@@ -1,6 +1,7 @@
 import logging as log
 import time
 import tracemalloc
+from input_validation import InvalidInput
 from resource_track import resourceUsageTracker, ResourceUsageTracker
 
 log.basicConfig(level=log.INFO)
@@ -12,22 +13,13 @@ tracemalloc.start()
 
 class CalcGCD:
 
-    class InvalidInput(Exception):
-        def __init__(self, data, msg = 'Invalid Input!'):
-            self.msg = msg
-            self.data = data
-            super().__init__(self.msg)
-
-        def __str__(self):
-            return f'Invalid Input: {self.data}'
-
     def __init__(self, x, y, approach = 'l'):
         self.memory_usage = float('-inf')
         self.tracMemory = {}
         if approach == 'r' or approach == 'l':
             self.approach = approach
         else:
-            raise self.InvalidInput(f'approach {approach}')
+            raise InvalidInput(f'approach {approach}')
         try:
             self.x = self.processData(x)
             self.y = self.processData(y)
@@ -94,7 +86,7 @@ class CalcGCD:
                 return (p_words[p_curr])
             else:
                 if len(p_curr) > 0:
-                    raise self.InvalidInput(p_str)
+                    raise InvalidInput(p_str)
                 return ''
     
         #Conditional Calls
@@ -117,7 +109,7 @@ class CalcGCD:
                 curr = ''
             i += 1
         if len(curr) > 0:
-            raise self.InvalidInput(p_data)
+            raise InvalidInput(p_data)
         return result
     
     def resultFormat(self, p_data):

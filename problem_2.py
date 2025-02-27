@@ -1,5 +1,6 @@
 import logging as log
 from resource_track import ResourceUsageTracker
+from input_validation import InvalidInput
 
 log.basicConfig(level=log.INFO)
 
@@ -11,7 +12,15 @@ memory_usage = [float('-inf')]
 
 class AllCombinations:
     def __init__(self, n):
-        self.n = n
+        self.n = AllCombinations.validation(n)
+
+    @staticmethod
+    def validation(data):
+        try:
+            x = int(data)
+            return x
+        except:
+            raise InvalidInput(f'n = {data}')
 
     def combination_generator(self):
         '''
@@ -102,7 +111,8 @@ class AllCombinations:
 
 
 if __name__ == '__main__':
-    obj = AllCombinations(8)
+    inp = input('Enter number of parenthesis pairs: ')
+    obj = AllCombinations(inp)
     result = obj.combination_generator()
 
     print(f'Result: {result}')
