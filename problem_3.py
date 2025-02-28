@@ -12,20 +12,17 @@ def importer(func):
 #Approach1: compare all string and group similar ones after sorting
 #Approach2: Make counter and compare counters if same append to list otherwise create a new list
 
-
 class Accumulator:
 
     def __init__(self, lst):
         self.lst = lst
         self.result = defaultdict(list)
-        pass
 
     @ResourceUsageTracker()
     def approach1(self):
         for s in self.lst:
             ts = ''.join(sorted(s))
             self.result[ts].append(s)
-        pass
 
     def splitStr(self, s):
         return [i for i in s]
