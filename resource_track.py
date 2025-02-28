@@ -157,8 +157,8 @@ class ResourceUsageTracker(object):
             if self.curr_calls == 1:
                 self.end_time = time.time()
                 self.last_snap = ResourceUsageTracker.tracemalloc.take_snapshot()
-                print(f'Total Execution Time: {self.end_time-self.start_time}')
-                print(f"Total memory usage by function call: {self.compare_snaps(snap1=self.first_snap,snap2=self.last_snap) / 1024} KB")
+                print(f'-----Total Execution Time: {self.end_time-self.start_time}-----')
+                print(f"-----Total memory usage by function call: {self.compare_snaps(snap1=self.first_snap,snap2=self.last_snap) / 1024} KB-----")
                 ResourceUsageTracker.tracemalloc.stop()
 
             self.curr_calls -= 1

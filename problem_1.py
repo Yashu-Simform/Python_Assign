@@ -21,10 +21,17 @@ class CalcGCD:
         else:
             raise InvalidInput(f'approach {approach}')
         try:
-            self.x = self.processData(x)
-            self.y = self.processData(y)
+            self.x = self.processData(CalcGCD.validateInp(x))
+            self.y = self.processData(CalcGCD.validateInp(y))
         except Exception as e:
             raise e
+        
+    @staticmethod
+    def validateInp(data):
+        if data.isalpha():
+            return data
+        else:
+            raise InvalidInput(data)
 
     def calculateGCD(self):
 
@@ -131,31 +138,23 @@ class CalcGCD:
         
         return (a,b)
 
-base_str = 'onetwothreefourfivesixseveneightnine'
-op1 = ''
-for i in range(13):
-    op1 += base_str
+def main():
+    inp1 = input('Enter 1st number in words: ')
+    inp2 = input('Enter 2nd number in words: ')
 
-print('basestr', base_str)
+    approach = input('Choose approach for process data\nRecursive: type "r"\nWhile Loop: type "l"\n: ')
 
-inp1 = input('Enter 1st number in words: ')
-inp2 = input('Enter 2nd number in words: ')
+    try:
+        obj = CalcGCD(inp1, inp2, approach)
+        result = obj.calculateGCD()
+        print('Hello!')
 
-approach = input('Choose approach for process data\nRecursive: type "r"\nWhile Loop: type "l"\n: ')
+        print(f'Result: {result}')
+        # print(f'Execution Time: {end-start}')
+        # print(f"Total memory usage: {memory_usage[0]} KB")
+    except Exception as e:
+        print('Error occurs: ', e)
+        pass
 
-obj = CalcGCD(inp1, inp2, approach)
-
-start = time.time()
-
-
-try:
-    result = obj.calculateGCD()
-except Exception as e:
-    print('Error occurs: ', e)
-    pass
-
-end = time.time()
-
-print(f'Result: {result}')
-print(f'Execution Time: {end-start}')
-print(f"Total memory usage: {memory_usage[0]} KB")
+if __name__ == '__main__':
+    main()

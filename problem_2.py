@@ -16,10 +16,13 @@ class AllCombinations:
 
     @staticmethod
     def validation(data):
-        try:
-            x = int(data)
-            return x
-        except:
+        if data.isnumeric():
+            try:
+                x = int(data)
+                return x
+            except:
+                raise InvalidInput(f'n = {data}')
+        else:
             raise InvalidInput(f'n = {data}')
 
     def combination_generator(self):
